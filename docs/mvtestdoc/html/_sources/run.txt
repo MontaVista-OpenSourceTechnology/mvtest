@@ -1,0 +1,29 @@
+.. run:
+
+=============
+Running Tests
+=============
+
+Run tests from parent mvtest directory::
+
+    py.test --html=<file-name.html> <options>
+
+Example:
+
+    ===  ==================================== ==============================
+    #       command                            description
+    ===  ==================================== ==============================
+    1      py.test mvtest                       To run all tests
+    2      py.test -m cg7                       To run all cge7 tests
+    3      py.test -m cgx                       To run all cgx tests
+    4      py.test mvtest/kernel                To run all kernel tests
+    5      py.test mvtest/storage               To run all storage tests
+    6      py.test mvtest/fs                    To run all filesystem tests
+    7      py.test mvtest/security              To run all security tests
+    8      py.test mvtest/dbg-tools             To run all debug tool tests
+    9      py.test mvtest/net                   To run all network tests
+    10     py.test --html=result.html mvtest    To save test run in result.html
+    11     py.test -s mvtest                    To see entire test result in console
+    ===  ==================================== ==============================
+
+The --html option will save the test output in specified path in an html file. If this option is omitted then the test result as test-result.html in the parent mvtest directory.

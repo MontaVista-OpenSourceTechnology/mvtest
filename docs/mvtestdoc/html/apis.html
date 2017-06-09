@@ -1,0 +1,601 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>mvtest APIs &mdash; mvtest</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="mvtest" href="index.html"/>
+        <link rel="next" title="License" href="license.html"/>
+        <link rel="prev" title="Test Results" href="results.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> mvtest
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="home.html">About mvtest</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run.html">Running Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="results.html">Test Results</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">mvtest APIs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-apis.kernutils">kernutils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-apis.netutils">netutils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-apis.utils">utils</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">mvtest</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>mvtest APIs</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/apis.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="mvtest-apis">
+<h1>mvtest APIs<a class="headerlink" href="#mvtest-apis" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-apis.kernutils">
+<span id="kernutils"></span><h2>kernutils<a class="headerlink" href="#module-apis.kernutils" title="Permalink to this headline">¶</a></h2>
+<p>Utilites for tests under suites/kernel tests.</p>
+<dl class="function">
+<dt id="apis.kernutils.get_nr_cpus">
+<code class="descname">get_nr_cpus</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/apis/kernutils.html#get_nr_cpus"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apis.kernutils.get_nr_cpus" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return number of available online cpus.</p>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd>int: Number of online cpus from /proc/cpuinfo</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="apis.kernutils.get_online_cpus">
+<code class="descname">get_online_cpus</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/apis/kernutils.html#get_online_cpus"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apis.kernutils.get_online_cpus" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of online cpus from /sys/devices/system/cpu/online.</p>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd>list: cpu0 is not included as its expected be online.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="apis.kernutils.make_cpu_offline">
+<code class="descname">make_cpu_offline</code><span class="sig-paren">(</span><em>cpus=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apis/kernutils.html#make_cpu_offline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apis.kernutils.make_cpu_offline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enable the list of cpus online.</p>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd>bool: True on success. False on failure.</dd>
+</dl>
+<p>Examples:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">make_cpu_offline</span><span class="p">(</span><span class="s1">&#39;5&#39;</span><span class="p">)</span>
+<span class="n">make_cpu_offline</span><span class="p">([</span><span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">&#39;5&#39;</span><span class="p">,</span> <span class="s1">&#39;7&#39;</span><span class="p">])</span>
+<span class="n">make_cpu_offline</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="apis.kernutils.make_cpu_online">
+<code class="descname">make_cpu_online</code><span class="sig-paren">(</span><em>cpus=None</em>, <em>online=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apis/kernutils.html#make_cpu_online"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apis.kernutils.make_cpu_online" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enable the list of cpus online.</p>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd>bool: True on success. False on failure.</dd>
+</dl>
+<p>Examples:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">make_cpu_online</span><span class="p">(</span><span class="s1">&#39;5&#39;</span><span class="p">)</span> <span class="c1"># make cpu5 online</span>
+<span class="n">make_cpu_online</span><span class="p">([</span><span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">&#39;5&#39;</span><span class="p">,</span> <span class="s1">&#39;7&#39;</span><span class="p">])</span> <span class="c1"># make cpu2,5,7 online</span>
+<span class="n">make_cpu_online</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="module-apis.netutils">
+<span id="netutils"></span><h2>netutils<a class="headerlink" href="#module-apis.netutils" title="Permalink to this headline">¶</a></h2>
+<p>Utilities for tests under suites/net.</p>
+<dl class="function">
+<dt id="apis.netutils.getip">
+<code class="descname">getip</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/apis/netutils.html#getip"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apis.netutils.getip" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return local ip address</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="apis.netutils.ping">
+<code class="descname">ping</code><span class="sig-paren">(</span><em>ripaddr=None</em>, <em>count=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apis/netutils.html#ping"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apis.netutils.ping" title="Permalink to this definition">¶</a></dt>
+<dd><p>Ping remote machine with N number of packets.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><p class="first">ripaddr (string): Remote IPv4 address.</p>
+<p class="last">count (string): Number of packets to be sent.</p>
+</dd>
+<dt>Returns:</dt>
+<dd><p class="first">bool: True on 0% packet loss or False on partial/100% loss. <strong>OR</strong></p>
+<p class="last">Popen object: If count is not specified.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-apis.utils">
+<span id="utils"></span><h2>utils<a class="headerlink" href="#module-apis.utils" title="Permalink to this headline">¶</a></h2>
+<p>mvtest library with general purpose utility APIs</p>
+<dl class="class">
+<dt id="apis.utils.ExpectShell">
+<em class="property">class </em><code class="descname">ExpectShell</code><a class="reference internal" href="_modules/apis/utils.html#ExpectShell"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apis.utils.ExpectShell" title="Permalink to this definition">¶</a></dt>
+<dd><p>Provides a set of APIs for interactive shell. Has four main methods</p>
+<ol class="arabic">
+<li><dl class="first docutils">
+<dt>connect:</dt>
+<dd><p class="first last">Spawns an expect shell</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>run_cmd:</dt>
+<dd><p class="first last">Combines both expect send and match.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>match_group:</dt>
+<dd><p class="first last">Returns the matched regex pattern as tuples.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>terminate:</dt>
+<dd><p class="first last">Terminate the spawned process.</p>
+</dd>
+</dl>
+</li>
+</ol>
+<dl class="method">
+<dt id="apis.utils.ExpectShell.connect">
+<code class="descname">connect</code><span class="sig-paren">(</span><em>cmd</em>, <em>timeout=30</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apis/utils.html#ExpectShell.connect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apis.utils.ExpectShell.connect" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Returns:</dt>
+<dd><p class="first">pexpect.spwan object: on success.</p>
+<p class="last">False: on Failure</p>
+</dd>
+<dt>Args:</dt>
+<dd><p class="first">cmd (string): command to spawn.</p>
+<p class="last">timeout (int): default 30 seconds.</p>
+</dd>
+<dt>Examples:</dt>
+<dd><p class="first">EX1:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">expect</span> <span class="o">=</span> <span class="n">ExpectShell</span><span class="p">()</span>
+<span class="n">expect</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;telnet shark 2305&#39;</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">60</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Ex2:</p>
+<div class="last highlight-default"><div class="highlight"><pre><span></span><span class="n">expect</span> <span class="o">=</span> <span class="n">ExpectShell</span><span class="p">()</span>
+<span class="n">expect</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;gdb a.out&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="apis.utils.ExpectShell.match_groups">
+<code class="descname">match_groups</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/apis/utils.html#ExpectShell.match_groups"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apis.utils.ExpectShell.match_groups" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Returns:</dt>
+<dd>A tuple of matched groups.</dd>
+<dt>Examples:</dt>
+<dd><div class="first last highlight-default"><div class="highlight"><pre><span></span><span class="n">expect</span> <span class="o">=</span> <span class="n">ExpectShell</span><span class="p">()</span>
+<span class="n">expect</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;telnet shark 2305&#39;</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">60</span><span class="p">)</span>
+<span class="n">index</span> <span class="o">=</span> <span class="n">expect</span><span class="o">.</span><span class="n">run_cmd</span><span class="p">(</span><span class="s1">&#39;ls&#39;</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;(*.py)&#39;</span><span class="p">,</span> <span class="s1">&#39;*.sh&#39;</span><span class="p">])</span>
+<span class="k">assert</span> <span class="n">index</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">index</span> <span class="o">==</span> <span class="mi">0</span>
+<span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">expect</span><span class="o">.</span><span class="n">match_groups</span><span class="p">())</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="apis.utils.ExpectShell.run_cmd">
+<code class="descname">run_cmd</code><span class="sig-paren">(</span><em>cmd</em>, <em>pattern</em>, <em>sleep=None</em>, <em>timeout=30</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apis/utils.html#ExpectShell.run_cmd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apis.utils.ExpectShell.run_cmd" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Returns:</dt>
+<dd><p class="first">Index into the pattern list: on success.</p>
+<p>If the pattern was not a list this returns index 0
+on a successful match.</p>
+<p class="last">False: on Failure</p>
+</dd>
+<dt>Args:</dt>
+<dd><p class="first">cmd (string): command to run.</p>
+<p>pattern: StringType, or pexpect.EOF, a compiled re, or list.</p>
+<p>sleep (int): Default is None. Will sleep after sending command.</p>
+<p class="last">timeout (int): default 30 seconds</p>
+</dd>
+<dt>Examples:</dt>
+<dd><div class="first last highlight-default"><div class="highlight"><pre><span></span><span class="n">expect</span> <span class="o">=</span> <span class="n">ExpectShell</span><span class="p">()</span>
+<span class="n">expect</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s1">&#39;telnet shark 2305&#39;</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">60</span><span class="p">)</span>
+<span class="n">index</span> <span class="o">=</span> <span class="n">expect</span><span class="o">.</span><span class="n">run_cmd</span><span class="p">(</span><span class="s1">&#39;ls&#39;</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;(*.py)&#39;</span><span class="p">,</span> <span class="s1">&#39;*.sh&#39;</span><span class="p">])</span>
+<span class="k">assert</span> <span class="n">index</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">index</span> <span class="o">==</span> <span class="mi">0</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="apis.utils.ExpectShell.terminate">
+<code class="descname">terminate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/apis/utils.html#ExpectShell.terminate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apis.utils.ExpectShell.terminate" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Returns:</dt>
+<dd><p class="first">True: on success.</p>
+<p class="last">False: on failure.</p>
+</dd>
+</dl>
+<p>This forces a child process to terminate. It starts nicely with
+SIGHUP and SIGINT. If force is True then moves onto SIGKILL.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="apis.utils.RemoteMachine">
+<em class="property">class </em><code class="descname">RemoteMachine</code><span class="sig-paren">(</span><em>host</em>, <em>username='root'</em>, <em>password=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apis/utils.html#RemoteMachine"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apis.utils.RemoteMachine" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Returns:</dt>
+<dd>None: on failure</dd>
+<dt>Args:</dt>
+<dd><p class="first">host (string): hostname or ipaddress of remote host.</p>
+<p>username (string): Default is root. If not root, specify username.</p>
+<p class="last">password (string): Default is NULL. If not, specify password.</p>
+</dd>
+</dl>
+<dl class="method">
+<dt id="apis.utils.RemoteMachine.file_get">
+<code class="descname">file_get</code><span class="sig-paren">(</span><em>src</em>, <em>dst</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apis/utils.html#RemoteMachine.file_get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apis.utils.RemoteMachine.file_get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transfer files from remote machine to local target.</p>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd><p class="first">True: on success</p>
+<p class="last">False:  on failure</p>
+</dd>
+<dt>Args:</dt>
+<dd><p class="first">src: Absolute path of the file on remote.</p>
+<p class="last">dst: Absolute path of the file on local.</p>
+</dd>
+<dt>Examples:</dt>
+<dd><div class="first last highlight-default"><div class="highlight"><pre><span></span><span class="n">remote</span> <span class="o">=</span> <span class="n">RemoteMachine</span><span class="p">(</span><span class="s1">&#39;bogart&#39;</span><span class="p">)</span>
+<span class="n">remote</span><span class="o">.</span><span class="n">file_get</span><span class="p">(</span><span class="s1">&#39;/tmp/remote_file&#39;</span><span class="p">,</span> <span class="s1">&#39;/tmp/local_file&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="apis.utils.RemoteMachine.file_put">
+<code class="descname">file_put</code><span class="sig-paren">(</span><em>src</em>, <em>dst</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apis/utils.html#RemoteMachine.file_put"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apis.utils.RemoteMachine.file_put" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transfer files from local target to remote machine.</p>
+<dl class="docutils">
+<dt>Returns::</dt>
+<dd><p class="first">True: on success.</p>
+<p class="last">False:  on failure</p>
+</dd>
+<dt>Args:</dt>
+<dd><p class="first">src : Absolute path of the file on target.</p>
+<p class="last">dst : Absolute path of the file on remote</p>
+</dd>
+<dt>Examples:</dt>
+<dd><div class="first last highlight-default"><div class="highlight"><pre><span></span><span class="n">remote</span> <span class="o">=</span> <span class="n">RemoteMachine</span><span class="p">(</span><span class="s1">&#39;bogart&#39;</span><span class="p">)</span>
+<span class="n">remote</span><span class="o">.</span><span class="n">file_put</span><span class="p">(</span><span class="s1">&#39;/tmp/local_file&#39;</span><span class="p">,</span> <span class="s1">&#39;/tmp/remote_file&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="apis.utils.RemoteMachine.run_cmd">
+<code class="descname">run_cmd</code><span class="sig-paren">(</span><em>cmd</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apis/utils.html#RemoteMachine.run_cmd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apis.utils.RemoteMachine.run_cmd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run a command in remote host.</p>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd><p class="first">None: on failure (non-zero return code) <strong>OR</strong></p>
+<p class="last">string: <strong>NullOutput</strong> or stripped command output on success.</p>
+</dd>
+<dt>Args:</dt>
+<dd>cmd (string) : command to run on remote host.</dd>
+<dt>Examples:</dt>
+<dd><div class="first last highlight-default"><div class="highlight"><pre><span></span><span class="n">remote</span> <span class="o">=</span> <span class="n">RemoteMachine</span><span class="p">(</span><span class="s1">&#39;bogart&#39;</span><span class="p">)</span>
+<span class="n">remote</span><span class="o">.</span><span class="n">run_cmd</span><span class="p">(</span><span class="s1">&#39;uptime&#39;</span><span class="p">)</span>
+
+<span class="n">remote</span> <span class="o">=</span> <span class="n">RemoteMachine</span><span class="p">(</span><span class="s1">&#39;192.168.10.2&#39;</span><span class="p">)</span>
+<span class="n">remote</span><span class="o">.</span><span class="n">run_cmd</span><span class="p">(</span><span class="s1">&#39;uptime&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="apis.utils.check_kernel_configs">
+<code class="descname">check_kernel_configs</code><span class="sig-paren">(</span><em>args</em>, <em>logging=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apis/utils.html#check_kernel_configs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apis.utils.check_kernel_configs" title="Permalink to this definition">¶</a></dt>
+<dd><p>check if the given kernel config/s is enabled in the kernel.</p>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd>bool: On failure, missing kernel configs are listed as python
+list.</dd>
+<dt>Args:</dt>
+<dd><p class="first">args (string or list): string for single kernel config <strong>OR</strong>
+a python list of kernel configs. See examples.</p>
+<p class="last">logging (bool): logs errors if True. By default is True.</p>
+</dd>
+<dt>Examples:</dt>
+<dd><div class="first last highlight-default"><div class="highlight"><pre><span></span><span class="mf">1.</span> <span class="n">check_kernel_configs</span><span class="p">(</span><span class="s1">&#39;PREEMPT_RT_FULL&#39;</span><span class="p">)</span>
+<span class="mf">2.</span> <span class="n">check_kernel_configs</span><span class="p">([</span><span class="s1">&#39;PREEMPT_RT_FULL&#39;</span><span class="p">,</span> <span class="s1">&#39;RELOCATABLE&#39;</span><span class="p">])</span>
+<span class="mf">3.</span> <span class="n">check_kernel_configs</span><span class="p">([</span><span class="s1">&#39;PREEMPT_RT_FULL=n&#39;</span><span class="p">,</span> <span class="s1">&#39;RELOCATABLE=m&#39;</span><span class="p">])</span>
+<span class="mf">4.</span> <span class="n">check_kernel_configs</span><span class="p">([</span><span class="s1">&#39;PREEMPT_RT_FULL=y&#39;</span><span class="p">,</span> <span class="s1">&#39;RELOCATABLE&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="apis.utils.get_status_output">
+<code class="descname">get_status_output</code><span class="sig-paren">(</span><em>cmd</em>, <em>wdir=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apis/utils.html#get_status_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apis.utils.get_status_output" title="Permalink to this definition">¶</a></dt>
+<dd><p>Runs a command via the shell.</p>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd>tuple: (exit_code, text_output)</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="apis.utils.run_cmd">
+<code class="descname">run_cmd</code><span class="sig-paren">(</span><em>cmd</em>, <em>check_rc=True</em>, <em>wdir=None</em>, <em>stdout_arg=-1</em>, <em>stdin_arg=None</em>, <em>shell=True</em>, <em>background=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apis/utils.html#run_cmd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apis.utils.run_cmd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run a command, either interactively (default) or in background.</p>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd><p class="first">None: on failure (non-zero return code) <strong>OR</strong></p>
+<p>string: <strong>NullOutput</strong> or stripped command output on success <strong>OR</strong></p>
+<p>Popen object: If background=True. Following methods &amp; attributes
+could be used</p>
+<div class="last highlight-default"><div class="highlight"><pre><span></span><span class="n">p</span> <span class="o">=</span> <span class="n">run_cmd</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">background</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">p</span><span class="o">.</span><span class="n">communicate</span><span class="p">()</span>
+<span class="n">p</span><span class="o">.</span><span class="n">returncode</span>
+</pre></div>
+</div>
+</dd>
+<dt>Args:</dt>
+<dd><p class="first">cmd (string): command to run.</p>
+<p>check_rc (bool): Default is True. False will not log command, output/
+errors.</p>
+<p>wdir (string): Run cmd from specificed directory.</p>
+<p>background (bool): Default is False. True returns Popen object. Run
+command in background. For usage see example below.</p>
+<p>stdout_arg: Default is <em>subprocess.PIPE</em>. Else <em>File descriptor</em>
+to output to a file.</p>
+<p>stdin_arg: Default is None. Progam&#8217;s standard input.</p>
+<p>shell (bool): Default is True. Should be True for piped commands.
+See Ex 2: to know how to send piped commands.</p>
+<p class="last">kwargs: optional arguments to be passed to Popen()</p>
+</dd>
+<dt>Examples:</dt>
+<dd><p class="first">Ex 1: To kill the parent and its child process and ensure no
+zombies are present.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">p</span> <span class="o">=</span> <span class="n">run_cmd</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">background</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">preexec_fn</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">setpgrp</span><span class="p">)</span><span class="o">.</span>
+<span class="n">do_something</span><span class="p">()</span>
+<span class="n">do_something_else</span><span class="p">()</span>
+<span class="n">os</span><span class="o">.</span><span class="n">kill</span><span class="p">(</span><span class="o">-</span><span class="n">p</span><span class="o">.</span><span class="n">pid</span><span class="p">,</span> <span class="n">signal</span><span class="o">.</span><span class="n">SIGKILL</span><span class="p">)</span>
+    <span class="o">**</span><span class="n">OR</span><span class="o">**</span>
+<span class="n">run_cmd</span><span class="p">(</span><span class="s1">&#39;killall cmd&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Ex 2: piped commands alternatively can be executed directly as</p>
+<div class="last highlight-default"><div class="highlight"><pre><span></span><span class="n">run_cmd</span><span class="p">(</span><span class="s1">&#39;cat sample | wc -l&#39;</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="apis.utils.run_stress">
+<code class="descname">run_stress</code><span class="sig-paren">(</span><em>cpu=None</em>, <em>mem=None</em>, <em>membytes=None</em>, <em>io=None</em>, <em>timeout=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apis/utils.html#run_stress"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apis.utils.run_stress" title="Permalink to this definition">¶</a></dt>
+<dd><p>Impose cpu or memory or IO stress or all 3 at once in background.</p>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd>Popen: on success or <em>False</em> on failure.</dd>
+<dt>Args:</dt>
+<dd><p class="first">cpu (int): Spawn N workers spinning on sqrt().</p>
+<p>mem (int): Spawn N workers spinning on malloc/free.</p>
+<p>io (int): Spawn N workers spinning on sync.</p>
+<p>membytes (string): malloc B bytes per vm worker.</p>
+<p>size can be B,K,M or G.</p>
+<p>timeout (string): Timeout after N seconds.</p>
+<p class="last">time can be in  s, m, h, d, y</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="license.html" class="btn btn-neutral float-right" title="License" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="results.html" class="btn btn-neutral" title="Test Results" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, MontaVista.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.0.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
