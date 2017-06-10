@@ -99,6 +99,5 @@ console log can be obtained by using option '-s' with py.test::
 mvtest documentation
 ====================
 
-mvtest documentation can be found under::
+mvtest documentation is hosted in [github pages](https://montavista-opensourcetechnology.github.io/mvtest/home.html)
 
-    docs/mvtestdoc/html/index.html
