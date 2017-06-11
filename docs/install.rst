@@ -25,7 +25,7 @@ Follow either Basic Deployment or Isolated Deployment.
 
 Basic Deployment::
 
-    1. git clone https://github.com/premkarat/mvtest.git
+    1. git clone https://github.com/MontaVista-OpenSourceTechnology/mvtest.git
     2. cd mvtest
     3. pip install -r requirements.txt
     4. export PYTHONDONTWRITEBYTECODE=1
@@ -35,7 +35,7 @@ To deploy mvtest in an isolated/virtual environment without conflicts with exist
 Isolated Deployment::
 
     1. pip install virtualenv
-    2. git clone https://github.com/premkarat/mvtest.git
+    2. git clone https://github.com/MontaVista-OpenSourceTechnology/mvtest.git
     3. cd mvtest
     4. virtualenv venv
     5. source venv/bin/activate
