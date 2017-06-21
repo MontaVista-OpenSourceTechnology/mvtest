@@ -3,7 +3,7 @@
 
 # Author: pkarat@mvista.com
 # License: MIT
-# (c) 2016 MontaVista Software
+# (C) Copyright MontaVista Software, LLC 2016-2017. All rights reserved.
 
 
 """ Utilities for tests under suites/net."""
