@@ -1,3 +1,6 @@
+# Author: pkarat@mvista.com
+# MIT License
+# # (C) Copyright MontaVista Software, LLC 2016-2017. All rights reserved.
 # Makefile for Sphinx documentation
 #
 
