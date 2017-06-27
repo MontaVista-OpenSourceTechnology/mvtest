@@ -13,6 +13,7 @@ Contents:
    run
    results
    apis
+   tests
    license
 
 
