@@ -212,6 +212,9 @@ htmlhelp_basename = 'mvtestdoc'
 # -- Options for LaTeX output ---------------------------------------------
 
 latex_elements = {
+# Reduce whitespace
+'classoptions': ',openany,oneside'
+
 # The paper size ('letterpaper' or 'a4paper').
 #'papersize': 'letterpaper',
 
