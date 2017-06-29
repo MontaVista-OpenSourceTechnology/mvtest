@@ -1,6 +1,0 @@
-ansi2html>=1.1.1
-colorlog>=2.7.0
-paramiko>=2.0.2
-pexpect>=4.2.1
-pytest>=2.8.5
-pytest-html>=1.11.0

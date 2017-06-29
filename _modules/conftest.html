@@ -1,0 +1,263 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>conftest &mdash; mvtest</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="mvtest" href="../index.html"/>
+        <link rel="up" title="Module code" href="index.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> mvtest
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../home.html">About mvtest</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../run.html">Running Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../results.html">Test Results</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apis.html">mvtest APIs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tests.html">Available Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">mvtest</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="index.html">Module code</a> &raquo;</li>
+      
+    <li>conftest</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for conftest</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1">#</span>
+<span class="c1"># Author: Prem Karat (pkarat@mvista.com)</span>
+<span class="c1"># License: MIT</span>
+<span class="c1"># (C) Copyright MontaVista Software, LLC 2016-2017. All rights reserved.</span>
+
+
+<span class="kn">from</span> <span class="nn">apis.utils</span> <span class="k">import</span> <span class="n">check_kernel_configs</span>
+<span class="kn">from</span> <span class="nn">apis.utils</span> <span class="k">import</span> <span class="n">run_cmd</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">pytest</span>
+<span class="kn">import</span> <span class="nn">re</span>
+
+
+<div class="viewcode-block" id="pytest_configure"><a class="viewcode-back" href="../tests.html#conftest.pytest_configure">[docs]</a><span class="k">def</span> <span class="nf">pytest_configure</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Provide additional environment details to pytest-html report&quot;&quot;&quot;</span>
+    <span class="c1"># add environment details to the pytest-html plugin</span>
+    <span class="n">msd_files</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;/boot/kenv.sh&#39;</span><span class="p">,</span> <span class="s1">&#39;/etc/mvl7/conf/local-content.conf&#39;</span><span class="p">]</span>
+    <span class="n">msd_file</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">msd_files</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+            <span class="n">msd_file</span> <span class="o">=</span> <span class="n">f</span>
+            <span class="k">break</span>
+
+    <span class="n">msd</span> <span class="o">=</span> <span class="s1">&#39;Unkown&#39;</span>
+    <span class="n">msd_version</span> <span class="o">=</span> <span class="s1">&#39;Unknown&#39;</span>
+    <span class="n">msd_output</span> <span class="o">=</span> <span class="n">run_cmd</span><span class="p">(</span><span class="s1">&#39;cat </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">msd_file</span><span class="p">,</span> <span class="n">check_rc</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">msd_output</span><span class="p">:</span>
+        <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">r&#39;MSD.*VERSION=&quot;(.*)&quot;&#39;</span><span class="p">,</span> <span class="n">msd_output</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">M</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
+            <span class="n">msd_version</span> <span class="o">=</span> <span class="n">match</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">r&#39;.*MACHINE=&quot;(.*)&quot;&#39;</span><span class="p">,</span> <span class="n">msd_output</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">M</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
+            <span class="n">msd</span> <span class="o">=</span> <span class="n">match</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="n">config</span><span class="o">.</span><span class="n">_metadata</span><span class="p">[</span><span class="s1">&#39;MSD&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">msd</span>
+    <span class="n">config</span><span class="o">.</span><span class="n">_metadata</span><span class="p">[</span><span class="s1">&#39;MSD Version&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">msd_version</span>
+
+    <span class="n">msd_release</span> <span class="o">=</span> <span class="n">run_cmd</span><span class="p">(</span><span class="s1">&#39;cat /etc/mvl-release&#39;</span><span class="p">,</span> <span class="n">check_rc</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">msd_release</span><span class="p">:</span>
+        <span class="n">msd_release</span> <span class="o">=</span> <span class="s1">&#39;Unknown&#39;</span>
+    <span class="n">config</span><span class="o">.</span><span class="n">_metadata</span><span class="p">[</span><span class="s1">&#39;MSD Release&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">msd_release</span>
+
+    <span class="n">hostname</span> <span class="o">=</span> <span class="n">run_cmd</span><span class="p">(</span><span class="s1">&#39;hostname&#39;</span><span class="p">,</span> <span class="n">check_rc</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">hostname</span><span class="p">:</span>
+        <span class="n">hostname</span> <span class="o">=</span> <span class="s1">&#39;Unknown&#39;</span>
+    <span class="n">config</span><span class="o">.</span><span class="n">_metadata</span><span class="p">[</span><span class="s1">&#39;Target&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">hostname</span>
+
+    <span class="n">kernel_preemption</span> <span class="o">=</span> <span class="s1">&#39;Unknown&#39;</span>
+    <span class="k">if</span> <span class="n">check_kernel_configs</span><span class="p">(</span><span class="s1">&#39;PREEMPT_RT_FULL&#39;</span><span class="p">,</span> <span class="n">logging</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="n">kernel_preemption</span> <span class="o">=</span> <span class="s1">&#39;PREEMPT_RT_FULL&#39;</span>
+    <span class="k">elif</span> <span class="n">check_kernel_configs</span><span class="p">(</span><span class="s1">&#39;PREEMPT__LL&#39;</span><span class="p">,</span> <span class="n">logging</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="n">kernel_preemption</span> <span class="o">=</span> <span class="s1">&#39;PREEMPT__LL&#39;</span>
+    <span class="k">elif</span> <span class="n">check_kernel_configs</span><span class="p">(</span><span class="s1">&#39;PREEMPT_NONE&#39;</span><span class="p">,</span> <span class="n">logging</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="n">kernel_preemption</span> <span class="o">=</span> <span class="s1">&#39;PREEMPT_NONE&#39;</span>
+    <span class="n">config</span><span class="o">.</span><span class="n">_metadata</span><span class="p">[</span><span class="s1">&#39;Kernel Preemption&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kernel_preemption</span>
+
+    <span class="n">uname_output</span> <span class="o">=</span> <span class="n">run_cmd</span><span class="p">(</span><span class="s1">&#39;uname -mr&#39;</span><span class="p">,</span> <span class="n">check_rc</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">kernel_release</span> <span class="o">=</span> <span class="s1">&#39;Unknown&#39;</span>
+    <span class="n">arch</span> <span class="o">=</span> <span class="s1">&#39;Unknown&#39;</span>
+    <span class="k">if</span> <span class="n">uname_output</span><span class="p">:</span>
+        <span class="n">kernel_release</span><span class="p">,</span> <span class="n">arch</span> <span class="o">=</span> <span class="n">uname_output</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+    <span class="n">config</span><span class="o">.</span><span class="n">_metadata</span><span class="p">[</span><span class="s1">&#39;Kernel Release&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kernel_release</span>
+    <span class="n">config</span><span class="o">.</span><span class="n">_metadata</span><span class="p">[</span><span class="s1">&#39;Arch&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">arch</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright MontaVista Software, LLC 2016-2017. All rights reserved..
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1.0.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
