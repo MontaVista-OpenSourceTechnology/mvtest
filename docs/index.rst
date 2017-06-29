@@ -15,7 +15,7 @@ Contents:
    apis
    tests
    license
-
+   internal
 
 Indices and tables
 ==================
