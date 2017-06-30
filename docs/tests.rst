@@ -5,7 +5,7 @@ conftest
 --------
 
 .. automodule:: conftest
-   :members:
+    :members:
 
 sample: test_apis
 -----------------
