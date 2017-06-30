@@ -13,6 +13,8 @@
 
   
   
+  
+  
 
   
 
@@ -44,6 +46,7 @@
 
 <body class="wy-body-for-nav" role="document">
 
+   
   <div class="wy-grid-for-nav">
 
     
@@ -84,7 +87,10 @@
           
             
             
-                <ul class="current">
+              
+            
+            
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="home.html">About mvtest</a></li>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Install</a></li>
 <li class="toctree-l1"><a class="reference internal" href="run.html">Running Tests</a></li>
@@ -109,8 +115,10 @@
 
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="index.html">mvtest</a>
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">mvtest</a>
+        
       </nav>
 
 
@@ -119,23 +127,40 @@
         <div class="rst-content">
           
 
- 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="index.html">Docs</a> &raquo;</li>
-      
-    <li>mvtest APIs</li>
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>mvtest APIs</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
-            <a href="_sources/apis.txt" rel="nofollow"> View page source</a>
+            
+            <a href="_sources/apis.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -232,29 +257,25 @@
 <dt id="apis.utils.ExpectShell">
 <em class="property">class </em><code class="descname">ExpectShell</code><a class="reference internal" href="_modules/apis/utils.html#ExpectShell"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apis.utils.ExpectShell" title="Permalink to this definition">¶</a></dt>
 <dd><p>Provides a set of APIs for interactive shell. Has four main methods</p>
-<ol class="arabic">
+<ol class="arabic simple">
 <li><dl class="first docutils">
 <dt>connect:</dt>
-<dd><p class="first last">Spawns an expect shell</p>
-</dd>
+<dd>Spawns an expect shell</dd>
 </dl>
 </li>
 <li><dl class="first docutils">
 <dt>run_cmd:</dt>
-<dd><p class="first last">Combines both expect send and match.</p>
-</dd>
+<dd>Combines both expect send and match.</dd>
 </dl>
 </li>
 <li><dl class="first docutils">
 <dt>match_group:</dt>
-<dd><p class="first last">Returns the matched regex pattern as tuples.</p>
-</dd>
+<dd>Returns the matched regex pattern as tuples.</dd>
 </dl>
 </li>
 <li><dl class="first docutils">
 <dt>terminate:</dt>
-<dd><p class="first last">Terminate the spawned process.</p>
-</dd>
+<dd>Terminate the spawned process.</dd>
 </dl>
 </li>
 </ol>
@@ -347,7 +368,7 @@ SIGHUP and SIGINT. If force is True then moves onto SIGKILL.</p>
 
 <dl class="class">
 <dt id="apis.utils.RemoteMachine">
-<em class="property">class </em><code class="descname">RemoteMachine</code><span class="sig-paren">(</span><em>host</em>, <em>username='root'</em>, <em>password=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apis/utils.html#RemoteMachine"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apis.utils.RemoteMachine" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">RemoteMachine</code><span class="sig-paren">(</span><em>host</em>, <em>username=’root’</em>, <em>password=”</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apis/utils.html#RemoteMachine"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apis.utils.RemoteMachine" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Returns:</dt>
 <dd>None: on failure</dd>
@@ -485,7 +506,7 @@ errors.</p>
 command in background. For usage see example below.</p>
 <p>stdout_arg: Default is <em>subprocess.PIPE</em>. Else <em>File descriptor</em>
 to output to a file.</p>
-<p>stdin_arg: Default is None. Progam&#8217;s standard input.</p>
+<p>stdin_arg: Default is None. Progam’s standard input.</p>
 <p>shell (bool): Default is True. Should be True for piped commands.
 See Ex 2: to know how to send piped commands.</p>
 <p class="last">kwargs: optional arguments to be passed to Popen()</p>
@@ -533,15 +554,18 @@ zombies are present.</p>
 
 
            </div>
+           <div class="articleComments">
+            
+           </div>
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="tests.html" class="btn btn-neutral float-right" title="Available Tests" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="tests.html" class="btn btn-neutral float-right" title="Available Tests" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="results.html" class="btn btn-neutral" title="Test Results" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="results.html" class="btn btn-neutral" title="Test Results" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -575,7 +599,8 @@ zombies are present.</p>
             VERSION:'1.0.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>
