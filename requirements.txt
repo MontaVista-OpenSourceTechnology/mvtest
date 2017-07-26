@@ -4,3 +4,4 @@ paramiko>=2.0.2
 pexpect>=4.2.1
 pytest>=2.8.5
 pytest-html>=1.11.0
+pytest-timeout>=1.2.0
