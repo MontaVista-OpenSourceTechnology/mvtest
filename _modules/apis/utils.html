@@ -181,6 +181,7 @@
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">subprocess</span>
 <span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">socket</span>
 
 
 <span class="k">def</span> <span class="nf">custom_logger</span><span class="p">():</span>
@@ -761,6 +762,155 @@
         <span class="k">except</span><span class="p">:</span>
             <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Failed to terminate&#39;</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">False</span></div></div>
+
+
+<div class="viewcode-block" id="get_nr_cpus"><a class="viewcode-back" href="../../apis.html#apis.utils.get_nr_cpus">[docs]</a><span class="k">def</span> <span class="nf">get_nr_cpus</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return number of available online cpus.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        int: Number of online cpus from /proc/cpuinfo</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">nr_cpus</span> <span class="o">=</span> <span class="n">run_cmd</span><span class="p">(</span><span class="s1">&#39;grep processor /proc/cpuinfo | wc -l&#39;</span><span class="p">,</span> <span class="n">check_rc</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">nr_cpus</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">nr_cpus</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># something is wrong here. Atleast there should be 1 cpu online</span>
+        <span class="k">return</span> <span class="mi">0</span></div>
+
+
+<div class="viewcode-block" id="get_online_cpus"><a class="viewcode-back" href="../../apis.html#apis.utils.get_online_cpus">[docs]</a><span class="k">def</span> <span class="nf">get_online_cpus</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns a list of online cpus from /sys/devices/system/cpu/online.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        list: cpu0 is not included as its expected be online.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">lonline_cpus</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">run_cmd</span><span class="p">(</span><span class="s1">&#39;cat /sys/devices/system/cpu/online&#39;</span><span class="p">,</span> <span class="n">check_rc</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">out</span><span class="p">:</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;/sys/devices/system/cpu/online shows null output&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[]</span>
+    <span class="n">lout</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">cpus</span> <span class="ow">in</span> <span class="n">lout</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s1">&#39;-&#39;</span> <span class="ow">in</span> <span class="n">cpus</span><span class="p">:</span>
+            <span class="n">start</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="n">cpus</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">start</span> <span class="o">==</span> <span class="s1">&#39;0&#39;</span><span class="p">:</span>
+                <span class="n">start</span> <span class="o">=</span> <span class="s1">&#39;1&#39;</span>
+            <span class="n">lcpus</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">start</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">end</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">lcpus</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">lcpus</span><span class="p">]</span>
+            <span class="n">lonline_cpus</span> <span class="o">=</span> <span class="n">lonline_cpus</span> <span class="o">+</span> <span class="n">lcpus</span>
+        <span class="k">elif</span> <span class="n">cpus</span> <span class="ow">is</span> <span class="ow">not</span> <span class="s1">&#39;0&#39;</span><span class="p">:</span>
+            <span class="n">lonline_cpus</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cpus</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">lonline_cpus</span></div>
+
+
+<div class="viewcode-block" id="make_cpu_online"><a class="viewcode-back" href="../../apis.html#apis.utils.make_cpu_online">[docs]</a><span class="k">def</span> <span class="nf">make_cpu_online</span><span class="p">(</span><span class="n">cpus</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">online</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Enable the list of cpus online.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        bool: True on success. False on failure.</span>
+
+<span class="sd">    Examples::</span>
+
+<span class="sd">        make_cpu_online(&#39;5&#39;) # make cpu5 online</span>
+<span class="sd">        make_cpu_online([&#39;2&#39;, &#39;5&#39;, &#39;7&#39;]) # make cpu2,5,7 online</span>
+<span class="sd">        make_cpu_online(5)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">cpus</span><span class="p">:</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;No cpus sepcified&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="n">value</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">online</span><span class="p">:</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">sysfs_online</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cpus</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="n">fail_cpus</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">cpu</span> <span class="ow">in</span> <span class="n">cpus</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">cpu</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;0&#39;</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">sysfs_online</span> <span class="o">=</span> <span class="s1">&#39;/sys/devices/system/cpu/cpu</span><span class="si">%s</span><span class="s1">/online&#39;</span> <span class="o">%</span> <span class="n">cpu</span>
+            <span class="n">cmd</span> <span class="o">=</span> <span class="s1">&#39;echo </span><span class="si">%s</span><span class="s1"> &gt; </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">sysfs_online</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">run_cmd</span><span class="p">(</span><span class="n">cmd</span><span class="p">):</span>
+                <span class="n">fail_cpus</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cpu</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">fail_cpus</span><span class="p">:</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;CPU online operation failed on cpus = </span><span class="si">%s</span><span class="s1">&#39;</span>
+                      <span class="o">%</span> <span class="n">fail_cpus</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">cpus</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;0&#39;</span><span class="p">:</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Invalid operation for cpu0&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="n">sysfs_online</span> <span class="o">=</span> <span class="s1">&#39;/sys/devices/system/cpu/cpu</span><span class="si">%s</span><span class="s1">/online&#39;</span> <span class="o">%</span> <span class="n">cpus</span>
+        <span class="n">cmd</span> <span class="o">=</span> <span class="s1">&#39;echo </span><span class="si">%s</span><span class="s1"> &gt; </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">sysfs_online</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">run_cmd</span><span class="p">(</span><span class="n">cmd</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="make_cpu_offline"><a class="viewcode-back" href="../../apis.html#apis.utils.make_cpu_offline">[docs]</a><span class="k">def</span> <span class="nf">make_cpu_offline</span><span class="p">(</span><span class="n">cpus</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Enable the list of cpus online.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        bool: True on success. False on failure.</span>
+
+<span class="sd">    Examples::</span>
+
+<span class="sd">        make_cpu_offline(&#39;5&#39;)</span>
+<span class="sd">        make_cpu_offline([&#39;2&#39;, &#39;5&#39;, &#39;7&#39;])</span>
+<span class="sd">        make_cpu_offline(5)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">make_cpu_online</span><span class="p">(</span><span class="n">cpus</span><span class="p">,</span> <span class="n">online</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ping"><a class="viewcode-back" href="../../apis.html#apis.utils.ping">[docs]</a><span class="k">def</span> <span class="nf">ping</span><span class="p">(</span><span class="n">ripaddr</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Ping remote machine with N number of packets.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        ripaddr (string): Remote IPv4 address.</span>
+
+<span class="sd">        count (string): Number of packets to be sent.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        bool: True on 0% packet loss or False on partial/100% loss. **OR**</span>
+
+<span class="sd">        Popen object: If count is not specified.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">cmd</span> <span class="o">=</span> <span class="s1">&#39;ping&#39;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">ripaddr</span><span class="p">:</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;No remote ipaddr specified&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="n">cmd</span> <span class="o">=</span> <span class="n">cmd</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="n">ripaddr</span>
+    <span class="k">if</span> <span class="n">count</span><span class="p">:</span>
+        <span class="n">cmd</span> <span class="o">=</span> <span class="n">cmd</span> <span class="o">+</span> <span class="s1">&#39; -c </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">count</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">run_cmd</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">out</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s1">&#39;0% packet loss&#39;</span> <span class="ow">in</span> <span class="n">out</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">True</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;packet loss found.</span><span class="se">\n</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">out</span><span class="p">)</span>
+                <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;ping failed.</span><span class="se">\n</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">out</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">run_cmd</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">background</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="getip"><a class="viewcode-back" href="../../apis.html#apis.utils.getip">[docs]</a><span class="k">def</span> <span class="nf">getip</span><span class="p">():</span>
+    <span class="s2">&quot;Return local ip address&quot;</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">SOCK_DGRAM</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">connect</span><span class="p">((</span><span class="s1">&#39;10.255.255.255&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+        <span class="n">ip</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">getsockname</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">ip</span> <span class="o">=</span> <span class="s1">&#39;127.0.0.1&#39;</span>
+    <span class="n">s</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">ip</span></div>
 </pre></div>
 
            </div>

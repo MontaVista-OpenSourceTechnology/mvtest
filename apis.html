@@ -96,8 +96,6 @@
 <li class="toctree-l1"><a class="reference internal" href="run.html">Running Tests</a></li>
 <li class="toctree-l1"><a class="reference internal" href="results.html">Test Results</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">mvtest APIs</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#module-apis.kernutils">kernutils</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-apis.netutils">netutils</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-apis.utils">utils</a></li>
 </ul>
 </li>
@@ -168,88 +166,6 @@
             
   <div class="section" id="mvtest-apis">
 <h1>mvtest APIs<a class="headerlink" href="#mvtest-apis" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="module-apis.kernutils">
-<span id="kernutils"></span><h2>kernutils<a class="headerlink" href="#module-apis.kernutils" title="Permalink to this headline">¶</a></h2>
-<p>Utilites for tests under suites/kernel tests.</p>
-<dl class="function">
-<dt id="apis.kernutils.get_nr_cpus">
-<code class="descname">get_nr_cpus</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/apis/kernutils.html#get_nr_cpus"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apis.kernutils.get_nr_cpus" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return number of available online cpus.</p>
-<dl class="docutils">
-<dt>Returns:</dt>
-<dd>int: Number of online cpus from /proc/cpuinfo</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="apis.kernutils.get_online_cpus">
-<code class="descname">get_online_cpus</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/apis/kernutils.html#get_online_cpus"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apis.kernutils.get_online_cpus" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a list of online cpus from /sys/devices/system/cpu/online.</p>
-<dl class="docutils">
-<dt>Returns:</dt>
-<dd>list: cpu0 is not included as its expected be online.</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="apis.kernutils.make_cpu_offline">
-<code class="descname">make_cpu_offline</code><span class="sig-paren">(</span><em>cpus=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apis/kernutils.html#make_cpu_offline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apis.kernutils.make_cpu_offline" title="Permalink to this definition">¶</a></dt>
-<dd><p>Enable the list of cpus online.</p>
-<dl class="docutils">
-<dt>Returns:</dt>
-<dd>bool: True on success. False on failure.</dd>
-</dl>
-<p>Examples:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">make_cpu_offline</span><span class="p">(</span><span class="s1">&#39;5&#39;</span><span class="p">)</span>
-<span class="n">make_cpu_offline</span><span class="p">([</span><span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">&#39;5&#39;</span><span class="p">,</span> <span class="s1">&#39;7&#39;</span><span class="p">])</span>
-<span class="n">make_cpu_offline</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="function">
-<dt id="apis.kernutils.make_cpu_online">
-<code class="descname">make_cpu_online</code><span class="sig-paren">(</span><em>cpus=None</em>, <em>online=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apis/kernutils.html#make_cpu_online"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apis.kernutils.make_cpu_online" title="Permalink to this definition">¶</a></dt>
-<dd><p>Enable the list of cpus online.</p>
-<dl class="docutils">
-<dt>Returns:</dt>
-<dd>bool: True on success. False on failure.</dd>
-</dl>
-<p>Examples:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">make_cpu_online</span><span class="p">(</span><span class="s1">&#39;5&#39;</span><span class="p">)</span> <span class="c1"># make cpu5 online</span>
-<span class="n">make_cpu_online</span><span class="p">([</span><span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">&#39;5&#39;</span><span class="p">,</span> <span class="s1">&#39;7&#39;</span><span class="p">])</span> <span class="c1"># make cpu2,5,7 online</span>
-<span class="n">make_cpu_online</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
-</pre></div>
-</div>
-</dd></dl>
-
-</div>
-<div class="section" id="module-apis.netutils">
-<span id="netutils"></span><h2>netutils<a class="headerlink" href="#module-apis.netutils" title="Permalink to this headline">¶</a></h2>
-<p>Utilities for tests under suites/net.</p>
-<dl class="function">
-<dt id="apis.netutils.getip">
-<code class="descname">getip</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/apis/netutils.html#getip"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apis.netutils.getip" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return local ip address</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="apis.netutils.ping">
-<code class="descname">ping</code><span class="sig-paren">(</span><em>ripaddr=None</em>, <em>count=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apis/netutils.html#ping"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apis.netutils.ping" title="Permalink to this definition">¶</a></dt>
-<dd><p>Ping remote machine with N number of packets.</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd><p class="first">ripaddr (string): Remote IPv4 address.</p>
-<p class="last">count (string): Number of packets to be sent.</p>
-</dd>
-<dt>Returns:</dt>
-<dd><p class="first">bool: True on 0% packet loss or False on partial/100% loss. <strong>OR</strong></p>
-<p class="last">Popen object: If count is not specified.</p>
-</dd>
-</dl>
-</dd></dl>
-
-</div>
 <div class="section" id="module-apis.utils">
 <span id="utils"></span><h2>utils<a class="headerlink" href="#module-apis.utils" title="Permalink to this headline">¶</a></h2>
 <p>mvtest library with general purpose utility APIs</p>
@@ -472,12 +388,86 @@ a python list of kernel configs. See examples.</p>
 </dd></dl>
 
 <dl class="function">
+<dt id="apis.utils.get_nr_cpus">
+<code class="descname">get_nr_cpus</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/apis/utils.html#get_nr_cpus"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apis.utils.get_nr_cpus" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return number of available online cpus.</p>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd>int: Number of online cpus from /proc/cpuinfo</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="apis.utils.get_online_cpus">
+<code class="descname">get_online_cpus</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/apis/utils.html#get_online_cpus"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apis.utils.get_online_cpus" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of online cpus from /sys/devices/system/cpu/online.</p>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd>list: cpu0 is not included as its expected be online.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
 <dt id="apis.utils.get_status_output">
 <code class="descname">get_status_output</code><span class="sig-paren">(</span><em>cmd</em>, <em>wdir=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apis/utils.html#get_status_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apis.utils.get_status_output" title="Permalink to this definition">¶</a></dt>
 <dd><p>Runs a command via the shell.</p>
 <dl class="docutils">
 <dt>Returns:</dt>
 <dd>tuple: (exit_code, text_output)</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="apis.utils.getip">
+<code class="descname">getip</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/apis/utils.html#getip"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apis.utils.getip" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return local ip address</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="apis.utils.make_cpu_offline">
+<code class="descname">make_cpu_offline</code><span class="sig-paren">(</span><em>cpus=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apis/utils.html#make_cpu_offline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apis.utils.make_cpu_offline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enable the list of cpus online.</p>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd>bool: True on success. False on failure.</dd>
+</dl>
+<p>Examples:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">make_cpu_offline</span><span class="p">(</span><span class="s1">&#39;5&#39;</span><span class="p">)</span>
+<span class="n">make_cpu_offline</span><span class="p">([</span><span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">&#39;5&#39;</span><span class="p">,</span> <span class="s1">&#39;7&#39;</span><span class="p">])</span>
+<span class="n">make_cpu_offline</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="apis.utils.make_cpu_online">
+<code class="descname">make_cpu_online</code><span class="sig-paren">(</span><em>cpus=None</em>, <em>online=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apis/utils.html#make_cpu_online"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apis.utils.make_cpu_online" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enable the list of cpus online.</p>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd>bool: True on success. False on failure.</dd>
+</dl>
+<p>Examples:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">make_cpu_online</span><span class="p">(</span><span class="s1">&#39;5&#39;</span><span class="p">)</span> <span class="c1"># make cpu5 online</span>
+<span class="n">make_cpu_online</span><span class="p">([</span><span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">&#39;5&#39;</span><span class="p">,</span> <span class="s1">&#39;7&#39;</span><span class="p">])</span> <span class="c1"># make cpu2,5,7 online</span>
+<span class="n">make_cpu_online</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="apis.utils.ping">
+<code class="descname">ping</code><span class="sig-paren">(</span><em>ripaddr=None</em>, <em>count=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apis/utils.html#ping"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apis.utils.ping" title="Permalink to this definition">¶</a></dt>
+<dd><p>Ping remote machine with N number of packets.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><p class="first">ripaddr (string): Remote IPv4 address.</p>
+<p class="last">count (string): Number of packets to be sent.</p>
+</dd>
+<dt>Returns:</dt>
+<dd><p class="first">bool: True on 0% packet loss or False on partial/100% loss. <strong>OR</strong></p>
+<p class="last">Popen object: If count is not specified.</p>
+</dd>
 </dl>
 </dd></dl>
 
