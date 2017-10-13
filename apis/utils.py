@@ -18,6 +18,7 @@ import pexpect
 import re
 import subprocess
 import time
+import socket
 
 
 def custom_logger():
@@ -598,3 +599,152 @@ class ExpectShell(object):
         except:
             log.error('Failed to terminate')
             return False
+
+
+def get_nr_cpus():
+    """
+    Return number of available online cpus.
+
+    Returns:
+        int: Number of online cpus from /proc/cpuinfo
+    """
+    nr_cpus = run_cmd('grep processor /proc/cpuinfo | wc -l', check_rc=False)
+    if nr_cpus:
+        return int(nr_cpus)
+    else:
+        # something is wrong here. Atleast there should be 1 cpu online
+        return 0
+
+
+def get_online_cpus():
+    """
+    Returns a list of online cpus from /sys/devices/system/cpu/online.
+
+    Returns:
+        list: cpu0 is not included as its expected be online.
+    """
+    lonline_cpus = []
+    out = run_cmd('cat /sys/devices/system/cpu/online', check_rc=False)
+    if not out:
+        log.error('/sys/devices/system/cpu/online shows null output')
+        return []
+    lout = out.split(',')
+    for cpus in lout:
+        if '-' in cpus:
+            start, end = cpus.split('-')
+            if start == '0':
+                start = '1'
+            lcpus = range(int(start), int(end) + 1)
+            lcpus = [str(i) for i in lcpus]
+            lonline_cpus = lonline_cpus + lcpus
+        elif cpus is not '0':
+            lonline_cpus.append(cpus)
+    return lonline_cpus
+
+
+def make_cpu_online(cpus=None, online=True):
+    """
+    Enable the list of cpus online.
+
+    Returns:
+        bool: True on success. False on failure.
+
+    Examples::
+
+        make_cpu_online('5') # make cpu5 online
+        make_cpu_online(['2', '5', '7']) # make cpu2,5,7 online
+        make_cpu_online(5)
+    """
+    if not cpus:
+        log.error('No cpus sepcified')
+        return False
+    value = 1
+    if not online:
+        value = 0
+    sysfs_online = ''
+    if isinstance(cpus, list):
+        fail_cpus = []
+        for cpu in cpus:
+            if str(cpu) == '0':
+                continue
+            sysfs_online = '/sys/devices/system/cpu/cpu%s/online' % cpu
+            cmd = 'echo %s > %s' % (value, sysfs_online)
+            if not run_cmd(cmd):
+                fail_cpus.append(cpu)
+        if fail_cpus:
+            log.error('CPU online operation failed on cpus = %s'
+                      % fail_cpus)
+            return False
+        return True
+    else:
+        if str(cpus) == '0':
+            log.error('Invalid operation for cpu0')
+            return False
+        sysfs_online = '/sys/devices/system/cpu/cpu%s/online' % cpus
+        cmd = 'echo %s > %s' % (value, sysfs_online)
+        if not run_cmd(cmd):
+            return False
+        return True
+
+
+def make_cpu_offline(cpus=None):
+    """
+    Enable the list of cpus online.
+
+    Returns:
+        bool: True on success. False on failure.
+
+    Examples::
+
+        make_cpu_offline('5')
+        make_cpu_offline(['2', '5', '7'])
+        make_cpu_offline(5)
+    """
+    return make_cpu_online(cpus, online=False)
+
+
+def ping(ripaddr=None, count=None):
+    """
+    Ping remote machine with N number of packets.
+
+    Args:
+        ripaddr (string): Remote IPv4 address.
+
+        count (string): Number of packets to be sent.
+
+    Returns:
+        bool: True on 0% packet loss or False on partial/100% loss. **OR**
+
+        Popen object: If count is not specified.
+    """
+    cmd = 'ping'
+    if not ripaddr:
+        log.error('No remote ipaddr specified')
+        return False
+    cmd = cmd + ' ' + ripaddr
+    if count:
+        cmd = cmd + ' -c %s' % count
+        out = run_cmd(cmd)
+        if out:
+            if '0% packet loss' in out:
+                return True
+            else:
+                log.error('packet loss found.\n%s' % out)
+                return False
+        else:
+            log.error('ping failed.\n%s' % out)
+            return False
+    else:
+        return run_cmd(cmd, background=True)
+
+
+def getip():
+    "Return local ip address"
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    try:
+        s.connect(('10.255.255.255', 0))
+        ip = s.getsockname()[0]
+    except:
+        ip = '127.0.0.1'
+    s.close()
+    return ip
