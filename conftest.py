@@ -10,6 +10,7 @@ from apis.utils import run_cmd
 import os
 import pytest
 import re
+import sys
 
 
 def pytest_configure(config):
@@ -62,3 +63,11 @@ def pytest_configure(config):
         kernel_release, arch = uname_output.split()
     config._metadata['Kernel Release'] = kernel_release
     config._metadata['Arch'] = arch
+    parameters = sys.argv
+    if not parameters:
+        test_name = 'Unknown'
+    else:
+        test_name = re.sub(r'.*test_','',''.join(filter(lambda x:'.py' in x, parameters)).replace(".py",""))
+    if not test_name:
+        test_name = 'Unknown'
+    config._metadata['Test Name'] = test_name
