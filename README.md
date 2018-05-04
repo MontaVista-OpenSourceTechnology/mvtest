@@ -64,20 +64,20 @@ Running Tests
 
 Run tests from mvtest directory::
 
-    py.test --html=<file-name.html> <options>
+    pytest --html=<file-name.html> <options>
 
 | command | description |
 | ------- | ----------- |
-| py.test suites | To run all tests |
-| py.test -m cg7 | To run all cge7 tests |
-| py.test -m cgx | To run all cgx tests |
-| py.test suites/cgl | To run all cgl tests |
-| py.test suites/dataplane | To run all dataplane tests |
-| py.test suites/foundation | To run all foundation tests |
-| py.test suites/iot | To run all iot tests |
-| py.test suites/security | To run all security tests |
-| py.test --html=result.html suites | To save test run in result.html |
-| py.test -s suites | To see entire test result in console |
+| pytest suites | To run all tests |
+| pytest -m cg7 | To run all cge7 tests |
+| pytest -m cgx | To run all cgx tests |
+| pytest suites/cgl | To run all cgl tests |
+| pytest suites/dataplane | To run all dataplane tests |
+| pytest suites/foundation | To run all foundation tests |
+| pytest suites/iot | To run all iot tests |
+| pytest suites/security | To run all security tests |
+| pytest --html=result.html suites | To save test run in result.html |
+| pytest -s suites | To see entire test result in console |
 
 The --html option will save the test output in specified path in an html file.
 If this option is omitted then the test result will be stored as test-result.html.
@@ -91,9 +91,9 @@ Test results are available in 2 formats::
         OR
     2. console log
 
-console log can be obtained by using option '-s' with py.test::
+console log can be obtained by using option '-s' with pytest::
 
-    py.test -s <option>
+    pytest -s <option>
 
 mvtest documentation
 ====================

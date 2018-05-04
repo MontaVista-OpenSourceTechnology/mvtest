@@ -10,6 +10,6 @@ Test results are available in 2 formats::
         OR
     2. console log
 
-console log can be obtained by using option **-s** with py.test::
+console log can be obtained by using option **-s** with pytest::
 
-    py.test -s <option>
+    pytest -s <option>
