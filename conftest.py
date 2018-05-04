@@ -16,21 +16,24 @@ import sys
 def pytest_configure(config):
     """Provide additional environment details to pytest-html report"""
     # add environment details to the pytest-html plugin
-    msd_files = ['/boot/kenv.sh', '/etc/mvl7/conf/local-content.conf']
+    msd_files = ['/boot/kenv.sh', '/etc/mvl7/conf/local-content.conf', '/etc/mvlcgx2.4.0/conf/emitted.inc']
     msd_file = None
     for f in msd_files:
         if os.path.isfile(f):
             msd_file = f
             break
 
-    msd = 'Unkown'
+    msd = 'Unknown'
     msd_version = 'Unknown'
     msd_output = run_cmd('cat %s' % msd_file, check_rc=False)
     if msd_output:
         match = re.findall(r'MSD.*VERSION="(.*)"', msd_output, re.M)
         if match:
             msd_version = match[0]
-        match = re.findall(r'.*MACHINE="(.*)"', msd_output, re.M)
+        if msd_file == "/etc/mvlcgx2.4.0/conf/emitted.inc":
+            match = re.findall(r'MSD="(.*)"', msd_output, re.M)
+        else:
+            match = re.findall(r'.*MACHINE="(.*)"', msd_output, re.M)
         if match:
             msd = match[0]
 
