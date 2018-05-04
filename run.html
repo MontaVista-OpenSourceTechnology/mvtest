@@ -164,7 +164,7 @@
   <div class="section" id="running-tests">
 <h1>Running Tests<a class="headerlink" href="#running-tests" title="Permalink to this headline">¶</a></h1>
 <p>Run tests from mvtest directory:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">py</span><span class="o">.</span><span class="n">test</span> <span class="o">--</span><span class="n">html</span><span class="o">=&lt;</span><span class="n">file</span><span class="o">-</span><span class="n">name</span><span class="o">.</span><span class="n">html</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">options</span><span class="o">&gt;</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">--</span><span class="n">html</span><span class="o">=&lt;</span><span class="n">file</span><span class="o">-</span><span class="n">name</span><span class="o">.</span><span class="n">html</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">options</span><span class="o">&gt;</span>
 </pre></div>
 </div>
 <p>Example:</p>
@@ -183,43 +183,43 @@
 </thead>
 <tbody valign="top">
 <tr class="row-even"><td>1</td>
-<td>py.test suites</td>
+<td>pytest suites</td>
 <td>To run all tests</td>
 </tr>
 <tr class="row-odd"><td>2</td>
-<td>py.test -m cg7</td>
+<td>pytest -m cg7</td>
 <td>To run all cge7 tests</td>
 </tr>
 <tr class="row-even"><td>3</td>
-<td>py.test -m cgx</td>
+<td>pytest -m cgx</td>
 <td>To run all cgx tests</td>
 </tr>
 <tr class="row-odd"><td>4</td>
-<td>py.test suites/cgl</td>
+<td>pytest suites/cgl</td>
 <td>To run all cgl tests</td>
 </tr>
 <tr class="row-even"><td>5</td>
-<td>py.test suites/dataplane</td>
+<td>pytest suites/dataplane</td>
 <td>To run all dataplane tests</td>
 </tr>
 <tr class="row-odd"><td>6</td>
-<td>py.test suites/foundation</td>
+<td>pytest suites/foundation</td>
 <td>To run all foundation tests</td>
 </tr>
 <tr class="row-even"><td>7</td>
-<td>py.test suites/iot</td>
+<td>pytest suites/iot</td>
 <td>To run all iot tests</td>
 </tr>
 <tr class="row-odd"><td>8</td>
-<td>py.test suites/security</td>
+<td>pytest suites/security</td>
 <td>To run all security tests</td>
 </tr>
 <tr class="row-even"><td>9</td>
-<td>py.test –html=result.html suites</td>
+<td>pytest –html=result.html suites</td>
 <td>To save test run in result.html</td>
 </tr>
 <tr class="row-odd"><td>10</td>
-<td>py.test -s suites</td>
+<td>pytest -s suites</td>
 <td>To see entire test result in console</td>
 </tr>
 </tbody>

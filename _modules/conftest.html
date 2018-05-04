@@ -179,21 +179,24 @@
 <div class="viewcode-block" id="pytest_configure"><a class="viewcode-back" href="../tests.html#conftest.pytest_configure">[docs]</a><span class="k">def</span> <span class="nf">pytest_configure</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Provide additional environment details to pytest-html report&quot;&quot;&quot;</span>
     <span class="c1"># add environment details to the pytest-html plugin</span>
-    <span class="n">msd_files</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;/boot/kenv.sh&#39;</span><span class="p">,</span> <span class="s1">&#39;/etc/mvl7/conf/local-content.conf&#39;</span><span class="p">]</span>
+    <span class="n">msd_files</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;/boot/kenv.sh&#39;</span><span class="p">,</span> <span class="s1">&#39;/etc/mvl7/conf/local-content.conf&#39;</span><span class="p">,</span> <span class="s1">&#39;/etc/mvlcgx2.4.0/conf/emitted.inc&#39;</span><span class="p">]</span>
     <span class="n">msd_file</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">msd_files</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
             <span class="n">msd_file</span> <span class="o">=</span> <span class="n">f</span>
             <span class="k">break</span>
 
-    <span class="n">msd</span> <span class="o">=</span> <span class="s1">&#39;Unkown&#39;</span>
+    <span class="n">msd</span> <span class="o">=</span> <span class="s1">&#39;Unknown&#39;</span>
     <span class="n">msd_version</span> <span class="o">=</span> <span class="s1">&#39;Unknown&#39;</span>
     <span class="n">msd_output</span> <span class="o">=</span> <span class="n">run_cmd</span><span class="p">(</span><span class="s1">&#39;cat </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">msd_file</span><span class="p">,</span> <span class="n">check_rc</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">msd_output</span><span class="p">:</span>
         <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;MSD.*VERSION=&quot;(.*)&quot;&#39;</span><span class="p">,</span> <span class="n">msd_output</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">M</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
             <span class="n">msd_version</span> <span class="o">=</span> <span class="n">match</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;.*MACHINE=&quot;(.*)&quot;&#39;</span><span class="p">,</span> <span class="n">msd_output</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">M</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">msd_file</span> <span class="o">==</span> <span class="s2">&quot;/etc/mvlcgx2.4.0/conf/emitted.inc&quot;</span><span class="p">:</span>
+            <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;MSD=&quot;(.*)&quot;&#39;</span><span class="p">,</span> <span class="n">msd_output</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">M</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;.*MACHINE=&quot;(.*)&quot;&#39;</span><span class="p">,</span> <span class="n">msd_output</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">M</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
             <span class="n">msd</span> <span class="o">=</span> <span class="n">match</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
