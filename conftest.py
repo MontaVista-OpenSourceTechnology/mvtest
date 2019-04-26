@@ -7,35 +7,67 @@
 
 from apis.utils import check_kernel_configs
 from apis.utils import run_cmd
-import os
-import pytest
 import re
 import sys
+import glob
 
 
 def pytest_configure(config):
     """Provide additional environment details to pytest-html report"""
     # add environment details to the pytest-html plugin
-    msd_files = ['/boot/kenv.sh', '/etc/mvl7/conf/local-content.conf', '/etc/mvlcgx2.4.0/conf/emitted.inc']
-    msd_file = None
-    for f in msd_files:
-        if os.path.isfile(f):
-            msd_file = f
-            break
 
     msd = 'Unknown'
     msd_version = 'Unknown'
-    msd_output = run_cmd('cat %s' % msd_file, check_rc=False)
-    if msd_output:
-        match = re.findall(r'MSD.*VERSION="(.*)"', msd_output, re.M)
+
+    path = '/etc/mvl*/conf/local-content.conf'
+    machine_file_list = glob.glob(path)
+
+    if machine_file_list:
+
+        machine_file = machine_file_list[0]
+
+        machine_file_content = run_cmd('cat %s' % machine_file, check_rc=False)
+        match = re.findall(r'''MACHINE.*["'](.*)["']''', machine_file_content,
+                           re.M)
+        if match:
+            machine = match[0]
+        else:
+            machine = 'Unknown'
+
+        uname_output = run_cmd('uname -r', check_rc=False)
+        match = re.findall('(\d+.\d+).*', uname_output, re.M)
+        if match:
+            kernel_version = match[0]
+        else:
+            kernel_version = 'Unknown'
+
+        mvl_ver_output = run_cmd('cat /etc/mvl-version', check_rc=False)
+        match = re.findall('(\d+.\d+).\d', mvl_ver_output, re.M)
+        if match:
+            yocto_version = match[0]
+            yocto_version = yocto_version.replace('7.0', '1.4')
+        else:
+            yocto_version = 'Unknown'
+
+        msd = '-'.join([machine, kernel_version, yocto_version])
+
+        match = re.findall(r'MSD.*VERSION="(.*)"', machine_file_content, re.M)
         if match:
             msd_version = match[0]
-        if msd_file == "/etc/mvlcgx2.4.0/conf/emitted.inc":
-            match = re.findall(r'MSD="(.*)"', msd_output, re.M)
-        else:
-            match = re.findall(r'.*MACHINE="(.*)"', msd_output, re.M)
-        if match:
-            msd = match[0]
+
+    if msd_version == 'Unknown':
+
+        path = '/etc/mvlcgx*/conf/emitted.inc'
+        msd_ver_file_list = glob.glob(path)
+
+        if msd_ver_file_list:
+            msd_ver_file = msd_ver_file_list[0]
+            msd_ver_file_output = run_cmd('cat %s' % msd_ver_file,
+                                          check_rc=False)
+            match = re.findall(r'MSD.*VERSION="(.*)"', msd_ver_file_output,
+                               re.M)
+            if match:
+                msd_version = match[0]
 
     config._metadata['MSD'] = msd
     config._metadata['MSD Version'] = msd_version
@@ -70,7 +102,8 @@ def pytest_configure(config):
     if not parameters:
         test_name = 'Unknown'
     else:
-        test_name = re.sub(r'.*test_','',''.join(filter(lambda x:'.py' in x, parameters)).replace(".py",""))
+        test_name = re.sub(r'.*test_', '', ''.join(
+            filter(lambda x: '.py' in x, parameters)).replace(".py", ""))
     if not test_name:
         test_name = 'Unknown'
     config._metadata['Test Name'] = test_name
