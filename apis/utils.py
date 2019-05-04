@@ -263,8 +263,11 @@ def check_kernel_configs(args, logging=True):
         return False
     out = run_cmd("zcat /proc/config.gz", check_rc=False)
     if not out:
-        log.error('Failed to read /proc/config.gz')
-        return False
+        uname_output = run_cmd('uname -r', check_rc=False)
+        out = run_cmd("cat /boot/config-%s" % uname_output, check_rc=False)
+        if not (uname_output and out):
+            log.error('Failed to read /proc/config.gz and /boot/config-* file')
+            return False
     for conf in configs:
         if '=n' in conf:
             pattern = '%s is not set' % conf.split('=')[0]
