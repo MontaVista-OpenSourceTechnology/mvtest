@@ -3,7 +3,7 @@
 
 # Author: pkarat@mvista.com
 # License: MIT
-# (C) Copyright MontaVista Software, LLC 2016-2017. All rights reserved.
+# (C) Copyright MontaVista Software, LLC 2016-2019. All rights reserved.
 
 
 """ mvtest library with general purpose utility APIs"""
