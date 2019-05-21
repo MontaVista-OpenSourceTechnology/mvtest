@@ -2,7 +2,7 @@
 #
 # Author: Prem Karat (pkarat@mvista.com)
 # License: MIT
-# (C) Copyright MontaVista Software, LLC 2016-2017. All rights reserved.
+# (C) Copyright MontaVista Software, LLC 2016-2019. All rights reserved.
 
 
 from apis.utils import check_kernel_configs
