@@ -3,7 +3,7 @@ About mvtest
 
 mvtest is an open-source automated test suite based on pytest framework to perform a full-fledged QA on MontaVista Linux Distribution::
 
-    © Copyright MontaVista Software, LLC 2016-2017. All rights reserved.
+    © Copyright MontaVista Software, LLC 2016-2019. All rights reserved.
 
     Licensed under the MIT license
 
