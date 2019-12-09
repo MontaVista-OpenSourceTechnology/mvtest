@@ -751,3 +751,13 @@ def getip():
         ip = '127.0.0.1'
     s.close()
     return ip
+
+
+def get_eth_interface():
+    "Return active ethernet interface"
+    try:
+        active_eth_interface = run_cmd("ifconfig | grep -1 $(hostname -i)\
+ | grep HWaddr | awk '{print$1}'",  check_rc=False)
+    except:
+        log.error('Failed to detect active ethernet interface')
+    return active_eth_interface
