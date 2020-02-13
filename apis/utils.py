@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#! /usr/bin/env python3
 
 
 # Author: pkarat@mvista.com
@@ -10,7 +10,7 @@
 
 
 from colorlog import ColoredFormatter
-from commands import getstatusoutput
+from subprocess import getstatusoutput
 import logging
 import os
 import paramiko
@@ -637,7 +637,7 @@ def get_online_cpus():
             start, end = cpus.split('-')
             if start == '0':
                 start = '1'
-            lcpus = range(int(start), int(end) + 1)
+            lcpus = list(range(int(start), int(end) + 1))
             lcpus = [str(i) for i in lcpus]
             lonline_cpus = lonline_cpus + lcpus
         elif cpus is not '0':
