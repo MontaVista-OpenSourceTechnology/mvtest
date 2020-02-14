@@ -641,7 +641,7 @@ def get_online_cpus():
             start, end = cpus.split('-')
             if start == '0':
                 start = '1'
-            lcpus = range(int(start), int(end) + 1)
+            lcpus = list(range(int(start), int(end) + 1))
             lcpus = [str(i) for i in lcpus]
             lonline_cpus = lonline_cpus + lcpus
         elif cpus != '0':
