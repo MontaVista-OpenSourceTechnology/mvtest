@@ -10,7 +10,11 @@
 
 
 from colorlog import ColoredFormatter
-from commands import getstatusoutput
+try:
+    from commands import getstatusoutput
+except:
+    from subprocess import getstatusoutput
+
 import logging
 import os
 import paramiko
@@ -640,7 +644,7 @@ def get_online_cpus():
             lcpus = range(int(start), int(end) + 1)
             lcpus = [str(i) for i in lcpus]
             lonline_cpus = lonline_cpus + lcpus
-        elif cpus is not '0':
+        elif cpus != '0':
             lonline_cpus.append(cpus)
     return lonline_cpus
 
