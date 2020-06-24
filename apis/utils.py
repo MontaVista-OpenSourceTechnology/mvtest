@@ -23,7 +23,11 @@ import re
 import subprocess
 import time
 import socket
+import sys
 
+
+# True if running on python 2 otherwise False
+run_python2 = not sys.version_info >= (3,0)
 
 def custom_logger():
     COMMAND = 5
@@ -180,6 +184,8 @@ def run_cmd(cmd, check_rc=True, wdir=None, stdout_arg=subprocess.PIPE,
 
     (out, _) = p.communicate()
 
+    if (not run_python2):
+        out = out.decode("utf-8") 
     # log RC irrespective of output
     if check_rc:
         if out:
@@ -260,7 +266,7 @@ def check_kernel_configs(args, logging=True):
     pattern = None
     if isinstance(args, str):
         configs = args.split()
-    elif type(args) is list:
+    elif isinstance(args, list):
         configs = args
     else:
         log.error('%s not is string or list format' % args)
