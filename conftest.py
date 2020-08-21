@@ -85,6 +85,8 @@ def pytest_configure(config):
     kernel_preemption = 'Unknown'
     if check_kernel_configs('PREEMPT_RT_FULL', logging=False):
         kernel_preemption = 'PREEMPT_RT_FULL'
+    elif check_kernel_configs('EXPERT' and 'PREEMPT_RT', logging=False):
+        kernel_preemption = 'PREEMPT_RT'
     elif check_kernel_configs('PREEMPT__LL', logging=False):
         kernel_preemption = 'PREEMPT__LL'
     elif check_kernel_configs('PREEMPT_NONE', logging=False):
