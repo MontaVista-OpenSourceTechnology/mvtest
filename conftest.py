@@ -85,12 +85,16 @@ def pytest_configure(config):
     kernel_preemption = 'Unknown'
     if check_kernel_configs('PREEMPT_RT_FULL', logging=False):
         kernel_preemption = 'PREEMPT_RT_FULL'
-    elif check_kernel_configs('EXPERT' and 'PREEMPT_RT', logging=False):
+    elif check_kernel_configs('PREEMPT_RT', logging=False):
         kernel_preemption = 'PREEMPT_RT'
     elif check_kernel_configs('PREEMPT__LL', logging=False):
         kernel_preemption = 'PREEMPT__LL'
     elif check_kernel_configs('PREEMPT_NONE', logging=False):
         kernel_preemption = 'PREEMPT_NONE'
+    elif check_kernel_configs('PREEMPT_VOLUNTARY', logging=False):
+        kernel_preemption = 'PREEMPT_VOLUNTARY'
+    elif check_kernel_configs('PREEMPT', logging=False):
+        kernel_preemption = 'PREEMPT'
     config._metadata['Kernel Preemption'] = kernel_preemption
 
     uname_output = run_cmd('uname -mr', check_rc=False)
