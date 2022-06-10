@@ -42,7 +42,7 @@ def pytest_configure(config):
             kernel_version = 'Unknown'
 
         mvl_ver_output = run_cmd('cat /etc/mvl-version', check_rc=False)
-        match = re.findall('(\d+.\d+).\d', mvl_ver_output, re.M)
+        match = re.findall('(\d+.\d+).*, mvl_ver_output, re.M)
         if match:
             yocto_version = match[0]
             yocto_version = yocto_version.replace('7.0', '1.4')
