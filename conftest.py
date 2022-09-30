@@ -19,7 +19,7 @@ def pytest_configure(config):
     msd = 'Unknown'
     msd_version = 'Unknown'
 
-    path = '/etc/mvl*/conf/local-content.conf'
+    path = '/etc/mvl*/conf/emitted.inc'
     machine_file_list = glob.glob(path)
 
     if machine_file_list:
@@ -27,12 +27,18 @@ def pytest_configure(config):
         machine_file = machine_file_list[0]
 
         machine_file_content = run_cmd('cat %s' % machine_file, check_rc=False)
-        match = re.findall(r'''MACHINE.*["'](.*)["']''', machine_file_content,
+        match = re.findall(r'''MACHINE_ARCH=\".*\"''', machine_file_content,
                            re.M)
         if match:
             machine = match[0]
+            result = re.search('"(.*)"', machine)
+            machine=result.group(1)
         else:
             machine = 'Unknown'
+
+        machine = machine.replace('_','-')
+        config._metadata['MACHINE'] = machine
+
 
         uname_output = run_cmd('uname -r', check_rc=False)
         match = re.findall('(\d+.\d+).*', uname_output, re.M)
@@ -48,6 +54,9 @@ def pytest_configure(config):
             yocto_version = yocto_version.replace('7.0', '1.4')
         else:
             yocto_version = 'Unknown'
+
+        kernel_yocto_version = '-'.join([kernel_version, yocto_version])
+        config._metadata['Kernel-Yocto Version'] = kernel_yocto_version
 
         msd = '-'.join([machine, kernel_version, yocto_version])
 
@@ -69,13 +78,22 @@ def pytest_configure(config):
             if match:
                 msd_version = match[0]
 
-    config._metadata['MSD'] = msd
     config._metadata['MSD Version'] = msd_version
 
     msd_release = run_cmd('cat /etc/mvl-release', check_rc=False)
     if not msd_release:
         msd_release = 'Unknown'
     config._metadata['MSD Release'] = msd_release
+
+    if (re.findall(r'\d+',msd_release)):
+        msd_release_version = re.findall(r'\d+',msd_release)[0]
+        if( int(msd_release_version) >= 4):
+            if( machine in ('ls1043ardb', 'ls1046afrwy', 'xilinx')):
+                msd = 'Unknown'
+    else:
+        msd = 'Unknown'
+
+    config._metadata['MSD'] = msd
 
     hostname = run_cmd('hostname', check_rc=False)
     if not hostname:
